@@ -1,0 +1,200 @@
+﻿
+@{
+    ViewData["Title"] = "Dept";
+}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title text-primary"><i class="fa fa-building-o"></i> From</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                            title="Collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="box-body">
+                <button id="button_normal">login</button>
+                <button id="button_mini">login</button>
+                <button id="button_small">login</button>
+                <button id="button_medium">login</button>
+                <button id="button_large">login</button>
+                <button id="button_custom">login</button>
+            </div>
+
+            <!-- /.box-body -->
+            <div class="box-footer">
+
+            </div>
+            <!-- /.box-footer-->
+        </div>
+
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title text-primary"><i class="fa fa-building-o"></i> @ViewData["Title"]</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                            title="Collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="box-body">
+                <div id="Grid"></div>
+            </div>
+ 
+            <!-- /.box-body -->
+            <div class="box-footer">
+
+            </div>
+            <!-- /.box-footer-->
+        </div>
+        <!-- /.box -->
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+@section Styles{
+}
+@section Scripts{
+    <script>
+        $(function () {
+            $("#button_normal").ejButton({
+                //normal size type is used
+                size: "normal",
+                showRoundedCorner: true,
+                contentType: "imageonly",
+                prefixIcon: "e-icon e-handup"
+            });
+            $("#button_mini").ejButton({
+                showRoundedCorner: true,
+                //mini size type is used
+                size: "mini"
+            });
+            $("#button_small").ejButton({
+                showRoundedCorner: true,
+                //small size type is used
+                size: "small"
+            });
+            $("#button_medium").ejButton({
+                showRoundedCorner: true,
+                //medium size type is used
+                size: "medium"
+            });
+            $("#button_large").ejButton({
+                //large size type is used
+                size: "large",
+                showRoundedCorner: true,
+                contentType: "textandimage",
+                prefixIcon: "e-icon e-handup"
+            });
+            $("#button_custom").ejButton({
+                //button with user given height and width
+                height: 50,
+                width: 130,
+                showRoundedCorner: true,
+                contentType: "textandimage",
+                prefixIcon: "e-icon e-handup"
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $("#save").ejButton({
+            size: "normal",
+            showRoundedCorner: true,
+            
+        });
+        
+        $(function () {
+            
+
+            var dataManager = ej.DataManager({
+                url: "/api/Dept",
+                adaptor: new ej.WebApiAdaptor(),
+                offline: true
+            });
+
+            var dataManagerCustomerType = ej.DataManager({
+                url: "/api/CustomerType",
+                adaptor: new ej.WebApiAdaptor()
+            });
+
+            dataManager.ready.done(function (e) {
+                $("#Grid").ejGrid({
+                    dataSource: ej.DataManager({
+                        json: e.result,
+                        adaptor: new ej.remoteSaveAdaptor(),
+                        insertUrl: "/api/Customer/Insert",
+                        updateUrl: "/api/Customer/Update",
+                        removeUrl: "/api/Customer/Remove",
+                    }),
+                    toolbarSettings: {
+                        showToolbar: true,
+                        toolbarItems: ["add", "edit", "delete", "update", "cancel", "search", "printGrid"]
+                    },
+                    editSettings: {
+                        allowEditing: false,
+                        allowAdding: true,
+                        allowDeleting: true,
+                        showDeleteConfirmDialog: true,
+                        editMode: "dialog"
+                    },
+                    isResponsive: true,
+                    enableResponsiveRow: true,
+                    allowSorting: true,
+                    allowSearching: true,
+                    allowFiltering: true,
+                    filterSettings: {
+                        filterType: "excel",
+                        maxFilterChoices: 100,
+                        enableCaseSensitivity: false
+                    },
+                    allowPaging: true,
+                    pageSettings: { pageSize: 10, printMode: ej.Grid.PrintMode.CurrentPage },
+                    columns: [
+                      //  { field: "CompanyID", headerText: 'Customer Id', isPrimaryKey: true, isIdentity: true, visible: true },
+                        { field: "Division", headerText: 'Customer Name', validationRules: { required: true } },
+                        { field: "Dept", headerText: 'Customer Name', validationRules: { required: true } },
+                        { field: "SubDept", headerText: 'Customer Name', validationRules: { required: true } },
+                        { field: "Ket", headerText: 'Customer Name', validationRules: { required: true } },
+                        { field: "CostCenter", headerText: 'Customer Name', validationRules: { required: true } },
+                        { field: "IsActive", headerText: 'Customer Name', validationRules: { required: true } },
+                        { field: "CreateBy", headerText: 'Customer Name', validationRules: { required: true } },
+                        { field: "CreateDt", headerText: 'Customer Name', validationRules: { required: true } },
+                        //{ field: "CustomerTypeId", headerText: 'Customer Type', foreignKeyField: "CustomerTypeId", foreignKeyValue: "CustomerTypeName", dataSource: dataManagerCustomerType },
+                        //{ field: "Address", headerText: 'Address', },
+                        //{ field: "City", headerText: 'City', },
+                        //{ field: "State", headerText: 'State', },
+                        //{ field: "ZipCode", headerText: 'ZipCode', },
+                        //{ field: "Phone", headerText: 'Phone', },
+                        //{ field: "Email", headerText: 'Email', },
+                        //{ field: "ContactPerson", headerText: 'CP', },
+                    ],
+                    actionComplete: "complete",
+                });
+            });
+
+
+        });
+
+        function complete(args) {
+            if (args.requestType == 'beginedit') {
+                $("#" + this._id + "_dialogEdit").ejDialog({ title: "Edit Record" });
+            }
+        }
+
+
+    </script>
+}
